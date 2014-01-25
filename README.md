@@ -1,4 +1,4 @@
 mailman
 =======
 
-The GNU Mailing List Manager, for QmailToaster
+The GNU Mailing List Manager for QMailToaster
