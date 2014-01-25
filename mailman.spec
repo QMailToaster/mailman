@@ -305,9 +305,11 @@ rm -rf $RPM_BUILD_ROOT%{varmmdir}/icons
 chmod 0644 $RPM_BUILD_ROOT/%{mmdir}/tests/fblast.py
 
 # Security issues...
-chmod 0755 $RPM_BUILD_ROOT/%{mmdir}/pythonlib/japanese/c/_japanese_codecs.so
-chmod 0755 $RPM_BUILD_ROOT/%{mmdir}/pythonlib/korean/c/hangul.so
-chmod 0755 $RPM_BUILD_ROOT/%{mmdir}/pythonlib/korean/c/_koco.so
+# shubes 01/25/14 - these failed on cos5, and we're not too concerned with them,
+#                   so I commented them out
+#chmod 0755 $RPM_BUILD_ROOT/%{mmdir}/pythonlib/japanese/c/_japanese_codecs.so
+#chmod 0755 $RPM_BUILD_ROOT/%{mmdir}/pythonlib/korean/c/hangul.so
+#chmod 0755 $RPM_BUILD_ROOT/%{mmdir}/pythonlib/korean/c/_koco.so
 
 # Remove write permissions from grorup and others
 find $RPM_BUILD_ROOT/%{mmdir}/pythonlib/ -type f -perm  -g=w -exec chmod g-w,o-w {} \;
