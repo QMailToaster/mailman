@@ -322,12 +322,18 @@ mkdir -p $RPM_BUILD_ROOT/%{piddir}
 mkdir -p $RPM_BUILD_ROOT/%{queuedir}
 
 # py_byte_compile files in mmdir
-find $RPM_BUILD_ROOT/%{mmdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.partition("$RPM_BUILD_ROOT")[2]) for f in sys.argv[1:]]' || :
-find $RPM_BUILD_ROOT/%{mmdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -O -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.partition("$RPM_BUILD_ROOT")[2]) for f in sys.argv[1:]]' || :
+#find $RPM_BUILD_ROOT/%{mmdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.partition("$RPM_BUILD_ROOT")[2]) for f in sys.argv[1:]]' || :
+#find $RPM_BUILD_ROOT/%{mmdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -O -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.partition("$RPM_BUILD_ROOT")[2]) for f in sys.argv[1:]]' || :
+# shubes - let's do this w/out using f.partition, which requires python 2.5
+find $RPM_BUILD_ROOT/%{mmdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.split("$RPM_BUILD_ROOT")[1]) for f in sys.argv[1:]]' || :
+find $RPM_BUILD_ROOT/%{mmdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -O -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.split("$RPM_BUILD_ROOT")[1]) for f in sys.argv[1:]]' || :
 
 # py_byte_compile files in docdir
-find $RPM_BUILD_ROOT/%{docdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.partition("$RPM_BUILD_ROOT")[2]) for f in sys.argv[1:]]' || :
-find $RPM_BUILD_ROOT/%{docdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -O -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.partition("$RPM_BUILD_ROOT")[2]) for f in sys.argv[1:]]' || :
+#find $RPM_BUILD_ROOT/%{docdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.partition("$RPM_BUILD_ROOT")[2]) for f in sys.argv[1:]]' || :
+#find $RPM_BUILD_ROOT/%{docdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -O -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.partition("$RPM_BUILD_ROOT")[2]) for f in sys.argv[1:]]' || :
+# shubes - let's do this w/out using f.partition, which requires python 2.5
+find $RPM_BUILD_ROOT/%{docdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.split("$RPM_BUILD_ROOT")[1]) for f in sys.argv[1:]]' || :
+find $RPM_BUILD_ROOT/%{docdir}/ -type f -a -name "*.py" -print0 | xargs -0 %{__python} -O -c 'import py_compile, sys; [py_compile.compile(f, dfile=f.split("$RPM_BUILD_ROOT")[1]) for f in sys.argv[1:]]' || :
 
 %clean
 rm -rf $RPM_BUILD_ROOT $RPM_BUILD_DIR/files.%{name}
